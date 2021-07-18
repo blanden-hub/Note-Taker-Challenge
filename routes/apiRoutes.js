@@ -1,17 +1,16 @@
 const generateUniqueId = require('generate-unique-id');
 const fs = require('fs');
 
-module.exports = function (app) {
+module.exports = function (route) {
 
-    app.get("/api/notes", function (req, res) {
+    route.get("/api/notes", function (req, res) {
 
         const note = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         return res.json(note);
 
     });
     
-
-    app.post("/api/notes", function (req, res) {
+    route.post("/api/notes", function (req, res) {
 
         const note = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         req.body.id = generateUniqueId();
@@ -22,7 +21,7 @@ module.exports = function (app) {
 
     });
  
-    app.delete("/api/notes/:id", function (req, res) {
+    route.delete("/api/notes/:id", function (req, res) {
 
         const note = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         let filteredNotes = note.filter(note => note.id !== req.params.id);
